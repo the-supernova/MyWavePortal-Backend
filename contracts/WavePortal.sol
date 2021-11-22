@@ -16,6 +16,18 @@ contract WavePortal {
         totalWaves += 1;
         console.log("%s has waved!", msg.sender);
     }
+    function getMaxWaves() public view returns (address, uint256) {
+        address maxWallet = walletAddresses[0];
+        uint256 maxWaves = walletWaves[maxWallet];
+        for (uint256 i = 1; i < walletAddresses.length; i++) {
+            if (walletWaves[walletAddresses[i]] > maxWaves) {
+                maxWallet = walletAddresses[i];
+                maxWaves = walletWaves[maxWallet];
+            }
+        }
+        console.log("%s has waved the most! (%s times)", maxWallet, maxWaves);
+        return (maxWallet, maxWaves);
+    }
     function getTotalWaves() public view returns (uint256) {
         console.log("Total waves: %s", totalWaves);
         console.log("Total wallets: %s", walletAddresses.length);
