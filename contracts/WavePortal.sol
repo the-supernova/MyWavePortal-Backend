@@ -16,7 +16,7 @@ contract WavePortal {
     event NewWave(address indexed from, uint256 timestamp, string message);
     Wave[] waves;
 
-    constructor() {
+    constructor() payable {
         console.log("Yo yo, I am a contract and I am smart");
     }
     function wave(string memory _message) public {
