@@ -7,14 +7,29 @@ contract WavePortal {
     uint256 totalWaves;
     address[] walletAddresses;
     mapping(address => uint256) public walletWaves;
+    struct Wave {
+        address waver;
+        string message;
+        uint256 timestamp;
+    }
+
+    event NewWave(address indexed from, uint256 timestamp, string message);
+    Wave[] waves;
+
     constructor() {
         console.log("Yo yo, I am a contract and I am smart");
     }
-    function wave() public {
+    function wave(string memory _message) public {
         walletWaves[msg.sender] += 1;
         walletAddresses.push(msg.sender);
         totalWaves += 1;
         console.log("%s has waved!", msg.sender);
+
+        waves.push(Wave(msg.sender, _message, block.timestamp));
+        emit NewWave(msg.sender, block.timestamp, _message);
+    }
+    function getAllWaves() public view returns (Wave[] memory) {
+        return waves;
     }
     function getMaxWaves() public view returns (address, uint256) {
         address maxWallet = walletAddresses[0];
